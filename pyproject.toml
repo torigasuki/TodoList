@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pip"
+version = "0.1.0"
+description = ""
+authors = ["Jeong SeungHo <teapackage16@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.28.2"
+django-cors-headers = "^3.14.0"
+djangorestframework = "^3.14.0"
+Django = "^4.2"
+djangorestframework-simplejwt = "^5.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
