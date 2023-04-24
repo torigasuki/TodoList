@@ -1,5 +1,6 @@
-from .serializers import UserSerializer, TokenLoginSerializer
 from .models import User
+from .serializers import UserSerializer, TokenLoginSerializer
+
 from rest_framework import status , permissions
 
 from rest_framework.generics import get_object_or_404
@@ -12,7 +13,7 @@ class SignupView(APIView):
     def post(self,request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user_id = request.user.id)
             return Response({'message':'회원가입이 완료되었습니다'},status=status.HTTP_201_CREATED)
         else :
             return Response({'message':f'${serializer.errors}'},status=status.HTTP_400_BAD_REQUEST)
