@@ -13,7 +13,7 @@ class SignupView(APIView):
     def post(self,request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user_id = request.user.id)
+            serializer.save()
             return Response({'message':'회원가입이 완료되었습니다'},status=status.HTTP_201_CREATED)
         else :
             return Response({'message':f'${serializer.errors}'},status=status.HTTP_400_BAD_REQUEST)

@@ -12,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User 
         fields = ['email','password','username','gender','age','introduction'] 
         extra_kwargs = {
-            'email' : {'read_only': True},
             'password': {'write_only': True},
         }
     def create(self, validated_data):
@@ -36,4 +35,6 @@ class TokenLoginSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['username'] = user.username
         token['email'] = user.email
+        token['gender'] = user.gender
+        token['age'] = user.age
         return token
