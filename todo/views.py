@@ -1,5 +1,7 @@
 from .models import Todo
 from .serializers import TodoSerializer,TodoCreateSerializer
+from django.utils import timezone
+import pytz
 from rest_framework import status , permissions
 
 from rest_framework.generics import get_object_or_404
@@ -7,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 class TodoView(APIView):
     def get(self,request):
@@ -35,7 +38,13 @@ class TodoDetail(APIView):
         if request.user == todo.user:
             serializer = TodoCreateSerializer(todo,data=request.data)
             if serializer.is_valid():
-                serializer.save()
+                if request.data.get('is_done') == True:
+                    local_tz = timezone.get_current_timezone()
+                    utc_now = timezone.now().astimezone(pytz.utc)
+                    local_now = utc_now.astimezone(local_tz)
+                    serializer.save(completion_at = local_now)
+                else:
+                    serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
