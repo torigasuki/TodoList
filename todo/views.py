@@ -10,7 +10,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class TodoView(APIView):
     def get(self,request):
-        todos = Todo.objects.all()
+        user = request.user
+        todos = Todo.objects.filter(user=user)
         serialize = TodoSerializer(todos, many=True)
         return Response(serialize.data)
     
